@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VentasDomain.Common;
 
 namespace VentasDomain.AggregateModel.OrdenAggregate
 {

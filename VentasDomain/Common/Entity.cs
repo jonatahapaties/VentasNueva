@@ -3,68 +3,70 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace VentasDomain.Common
-  public abstract class Entity
 {
-    int? _requestedHashCode;
-    int _Id;
-    public virtual int Id
+    public abstract class Entity
     {
-        get
+        int? _requestedHashCode;
+        int _Id;
+        public virtual int Id
         {
-            return _Id;
+            get
+            {
+                return _Id;
+            }
+            protected set
+            {
+                _Id = value;
+            }
         }
-        protected set
+        public bool IsTransient()
         {
-            _Id = value;
+            return this.Id == default(Int32);
         }
-    }
-    public bool IsTransient()
-    {
-        return this.Id == default(Int32);
-    }
 
-    public override bool Equals(object obj)
-    {
-        if (obj == null || !(obj is Entity))
-            return false;
-
-        if (Object.ReferenceEquals(this, obj))
-            return true;
-
-        if (this.GetType() != obj.GetType())
-            return false;
-
-        Entity item = (Entity)obj;
-
-        if (item.IsTransient() || this.IsTransient())
-            return false;
-        else
-            return item.Id == this.Id;
-    }
-
-    public override int GetHashCode()
-    {
-        if (!IsTransient())
+        public override bool Equals(object obj)
         {
-            if (!_requestedHashCode.HasValue)
-                _requestedHashCode = this.Id.GetHashCode() ^ 31;
-            return _requestedHashCode.Value;
+            if (obj == null || !(obj is Entity))
+                return false;
 
+            if (Object.ReferenceEquals(this, obj))
+                return true;
+
+            if (this.GetType() != obj.GetType())
+                return false;
+
+            Entity item = (Entity)obj;
+
+            if (item.IsTransient() || this.IsTransient())
+                return false;
+            else
+                return item.Id == this.Id;
         }
-        else
-            return base.GetHashCode();
-    }
 
-    public static bool operator ==(Entity left, Entity right)
-    {
-        if (Object.Equals(left, null))
-            return (Object.Equals(right, null)) ? true : false;
-        else
-            return left.Equals(right);
-    }
+        public override int GetHashCode()
+        {
+            if (!IsTransient())
+            {
+                if (!_requestedHashCode.HasValue)
+                    _requestedHashCode = this.Id.GetHashCode() ^ 31;
+                return _requestedHashCode.Value;
 
-    public static bool operator !=(Entity left, Entity right)
-    {
-        return !(left == right);
+            }
+            else
+                return base.GetHashCode();
+        }
+
+        public static bool operator ==(Entity left, Entity right)
+        {
+            if (Object.Equals(left, null))
+                return (Object.Equals(right, null)) ? true : false;
+            else
+                return left.Equals(right);
+        }
+
+        public static bool operator !=(Entity left, Entity right)
+        {
+            return !(left == right);
+        }
     }
 }

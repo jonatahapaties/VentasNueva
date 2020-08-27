@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Ventas.Domain.Common;
 
 namespace VentasDomain.AggregateModel.NewFolder.CompradorAggregate
 {
